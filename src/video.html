@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>视频信息提交</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans h-screen flex items-center justify-center">
+
+    <div class="text-center w-full max-w-xl p-5">
+        <h1 class="text-5xl font-extrabold text-gray-900 tracking-tight mb-5">视频信息提交</h1>
+        <br>
+
+        <form id="myForm" class="bg-white rounded-lg shadow-lg p-8 border border-gray-300" action="bili.php" method="post" onsubmit="return validateQuality()">
+            <div class="mb-6">
+                <label for="url" class="block text-sm font-bold text-gray-900 mb-2 text-left">视频URL：</label>
+                <input type="text" id="url" name="url" class="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" value="https://www.apple.cn/BV1rx4y147H6/?p=1" required>
+            </div>
+
+            <div class="mb-6 relative">
+                <label for="quality" class="block text-sm font-bold text-gray-900 mb-2 text-left">视频质量：</label>
+                <select id="quality" name="quality" class="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white bg-opacity-70 backdrop-filter backdrop-blur-md">
+                    <option value="80">1080p</option>
+                    <option value="64">720p</option>
+                    <option value="32">540p</option>
+                    <option value="16">360p</option>
+                </select>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 10l5 5 5-5H7z" />
+                    </svg>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition duration-300 ease-in-out focus:outline-none focus:shadow-outline">
+                提交
+            </button>
+        </form>
+
+        <p class="text-center text-gray-600 mt-5 italic">获取链接需要一定时间，请耐心等待</p>
+
+        <div class="text-center mt-10 text-gray-500">
+            &copy; 2024 元培一班外交部. All rights reserved.
+        </div>
+    </div>
+
+    <script>
+        function validateQuality() {
+            const qualityValue = document.getElementById("quality").value;
+            const validQualities = ["80", "64", "32", "16"];
+
+            if (!validQualities.includes(qualityValue)) {
+                alert("视频质量必须为80、64、32或16！");
+                return false; // 阻止表单提交
+            }
+            return true; // 允许表单提交
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const msg = params.get('msg');
+            if (msg) {
+                alert(msg);
+
+                // 删除msg参数
+                params.delete('msg');
+
+                // 构造新的URL
+                const newUrl = window.location.pathname + '?' + params.toString();
+
+                // 替换当前历史记录项
+                history.pushState({}, '', newUrl);
+            }
+        });
+    </script>
+
+</body>
+</html>
